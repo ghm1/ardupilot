@@ -625,7 +625,7 @@ void Plane::update_flight_mode(void)
             if (tdrag_mode && !auto_state.fbwa_tdrag_takeoff_mode) {
                 if (auto_state.highest_airspeed < g.takeoff_tdrag_speed1) {
                     auto_state.fbwa_tdrag_takeoff_mode = true;
-                    gcs_send_text(MAV_SEVERITY_WARNING, "FBWA tdrag mode\n");
+                    gcs_send_text(MAV_SEVERITY_WARNING, "FBWA tdrag mode");
                 }
             }
         }
@@ -768,6 +768,7 @@ void Plane::set_flight_stage(AP_SpdHgtControl::FlightStage fs)
 
     switch (fs) {
     case AP_SpdHgtControl::FLIGHT_LAND_APPROACH:
+        gcs_send_text_fmt(MAV_SEVERITY_INFO, "Landing approach start at %.1fm", (double)relative_altitude());
 #if GEOFENCE_ENABLED == ENABLED 
         if (g.fence_autoenable == 1) {
             if (! geofence_set_enabled(false, AUTO_TOGGLED)) {
@@ -786,7 +787,7 @@ void Plane::set_flight_stage(AP_SpdHgtControl::FlightStage fs)
         break;
 
     case AP_SpdHgtControl::FLIGHT_LAND_ABORT:
-        gcs_send_text_fmt(MAV_SEVERITY_NOTICE, "Landing aborted via throttle, climbing to %dm", auto_state.takeoff_altitude_rel_cm/100);
+        gcs_send_text_fmt(MAV_SEVERITY_NOTICE, "Landing aborted via throttle. Climbing to %dm", auto_state.takeoff_altitude_rel_cm/100);
         break;
 
     case AP_SpdHgtControl::FLIGHT_LAND_FINAL:
