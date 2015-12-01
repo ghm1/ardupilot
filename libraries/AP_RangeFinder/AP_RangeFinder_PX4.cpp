@@ -162,9 +162,9 @@ void AP_RangeFinder_PX4::update(void)
     }*/
 
     // if we have not taken a reading in the last 0.2s set status to No Data
-    if (hal.scheduler->micros64() - _last_timestamp >= 200000) {
+    if (AP_HAL::micros64() - _last_timestamp >= 200000) {
         set_status(RangeFinder::RangeFinder_NoData);
-        hal.console->printf("AP_RangeFinder_PX4: Timestamp to old.\n");
+        //hal.console->printf("AP_RangeFinder_PX4: Timestamp to old.\n");
     }
 
     /*if (count != 0) {
